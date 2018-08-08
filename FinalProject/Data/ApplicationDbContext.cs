@@ -24,5 +24,11 @@ namespace FinalProject.Data
         }
 
         public DbSet<Team> Teams { get; set; }
+
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Enter> Enters { get; set; }
     }
 }
