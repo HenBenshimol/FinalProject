@@ -1,0 +1,206 @@
+﻿@model IEnumerable<FinalProject.Models.Article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/css" />
+</environment>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#SearchArticles').click(SearchResult);
+
+            function SearchResult() {
+                var defultResult = "###";
+                var articleTitle;
+                var autherName;
+                var articleText;
+                var startDate;
+                var endDate;
+
+                if (!$('#ArticleTitle').val()) {
+                    articleTitle = defultResult;
+                }
+                else {
+                    articleTitle = $('#ArticleTitle').val();
+                }
+
+                if (!$('#AutherName').val()) {
+                    autherName = defultResult;
+                }
+                else {
+                    autherName = $('#AutherName').val();
+                }
+
+                if (!$('#ArticleText').val()) {
+                    articleText = defultResult;
+                }
+                else {
+                    articleText = $('#ArticleText').val();
+                }
+
+                if ($('#StartDate').val()) {
+                    startDate = $('#StartDate').val();
+                }
+
+                if ($('#EndDate').val()) {
+                    endDate = $('#EndDate').val();
+                }
+
+
+                $.get('/News/SearchArticleResult', {
+                    articleTitle: articleTitle, autherName: autherName,
+                    articleText: articleText, startDate: startDate, endDate: endDate
+                },
+                    function (result) {
+                        $('#resultsView').html(result);
+                    });
+            }
+        });
+
+        var start = document.getElementById('StartDate');
+        var end = document.getElementById('EndDate');
+
+        start.addEventListener('change', function () {
+            if (start.value)
+                end.min = start.value;
+        }, false);
+        end.addEventLiseter('change', function () {
+            if (end.value)
+                start.max = end.value;
+        }, false);
+
+    </script>
+}
+
+
+@if (User.IsInRole("NormalUser") || User.IsInRole("Admin") || User.IsInRole("Author"))
+{
+    <div class="top-one">
+        <div class="search-tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0" class="search-tbl">
+                <thead>
+                    <tr>
+                        <th class="search-tbl-th"><input type="text" placeholder="Article title" id="ArticleTitle" name="ArticleTitle" class="search-box"></th>
+                        <th class="search-tbl-th"><input type="text" placeholder="Auther name" id="AutherName" name="AutherName" class="search-box"></th>
+                        <th class="search-tbl-th"><input type="text" placeholder="words from text" id="ArticleText" name="ArticleText" class="search-box"></th>
+                        <th class="search-tbl-th"><input placeholder="From date" data-date-format="dd/MM/yyyy" type="date" onfocus="(this.type='date')" id="StartDate" class="search-box"></th>
+                        <th class="search-tbl-th"><input placeholder="To date" data-date-format="dd/MM/yyyy" type="date" onfocus="(this.type='date')" id="EndDate" class="search-box"></th>
+                        <th class="search-tbl-th"><button id="SearchArticles" class="btn search-btn">Search</button></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="resultsView" />
+    </div>
+
+
+
+
+    int i = 0;
+
+
+    <div class="top-one">
+        @foreach (var item in Model)
+        {
+            i++;
+
+            if (i == 1)
+            {
+                var hreff = "../../Article/Details/" + item.ID;
+                <a href=@hreff>
+                    <dl>
+                        <dd class="top-one-dd">
+                            @{var imagePath = "../../Visual/Images/" + item.Image;
+                                if (item.Image == null) { imagePath = ""; } }
+                            <img src=@imagePath style="width: 50%; height: 100%;" alt=@item.Image />
+                            <div class="one-article-text">
+                                <h2>@Html.DisplayFor(model => item.Title)</h2>
+                                <h4>@Html.DisplayFor(model => item.Author) at @Html.DisplayFor(model => item.PublishDate) </h4>
+                                <p class="one-article-p">@Html.DisplayFor(model => item.Text)</p>
+                            </div>
+
+                        </dd>
+                    </dl>
+                </a>
+
+            }
+            break;
+        }
+    </div>
+    {
+        i = 0;
+    }
+
+    <div class="top-five">
+        @foreach (var item in Model)
+        {
+            i++;
+            if ((i <= 5) && (i > 1))
+            {
+                var hreff = "../../Article/Details/" + item.ID;
+                <div class="each-top-five">
+                    <a href=@hreff>
+                        <dl>
+                            <dd class="top-five-dd">
+                                @{var imagePath = "../../wwwroot/Images/" + item.Image;
+                                    if (item.Image == null) { imagePath = ""; } }
+                                <img src=@imagePath style="width: 35%; height: 100%;" alt=@item.Image />
+                                <div class="five-article-text">
+                                    <h2>@Html.DisplayFor(model => item.Title)</h2>
+                                    <h4>@Html.DisplayFor(model => item.Author)</h4>
+                                    <p>@Html.DisplayFor(model => item.Text)</p>
+                                </div>
+                            </dd>
+                        </dl>
+                    </a>
+                </div>
+            }
+            else if (i > 5)
+            {
+                break;
+            }
+        }
+    </div>
+    {
+        i = 0;
+    }
+    <div class="later-articles">
+        <br />
+        @foreach (var item in Model)
+        {
+            i++;
+
+            if (i > 5)
+            {
+                var hreff = "../../Article/Details/" + item.ID;
+                <div class="each-later-articles">
+                    <a href=@hreff>
+                        <dl>
+                            <dd class="later-article-dd">
+                                @{var imagePath = "../../wwwroot/Images/" + item.Image;
+                                    if (item.Image == null) { imagePath = ""; } }
+                                <img id="detailsImage" src=@imagePath style="height: 80%; width: 100%;" alt=@item.Image />
+                                <div class="later-article-text">
+                                    <h4>@Html.DisplayFor(model => item.Title)</h4>
+                                </div>
+                            </dd>
+                        </dl>
+                    </a>
+                </div>
+            }
+            else if (i > 13)
+            {
+                break;
+            }
+        }
+    </div>
+}
+else
+{
+    <p> Please Login to view the content </p>
+}
