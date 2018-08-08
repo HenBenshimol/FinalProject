@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using FinalProject.Models;
 using FinalProject.Models.AccountViewModels;
 using FinalProject.Services;
+using FinalProject.Data;
 
 namespace FinalProject.Controllers
 {
@@ -25,6 +26,10 @@ namespace FinalProject.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
+        private string DEFULT_RESULT = "###";
+        private readonly ApplicationDbContext _context;
+
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -35,6 +40,168 @@ namespace FinalProject.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+        }
+
+        public ActionResult ManageUsers()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var AllUsers = SearchUserResult(string.Empty, string.Empty, string.Empty, string.Empty, 0);
+                return View(AllUsers);
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult Delete(string id)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                //Bad Request
+                if (id == null)
+                {
+                    return BadRequest();
+                }
+
+                var user = _context.Users.Find(id);
+
+                //Not Found
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return View(user);
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        // POST: Article/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            var user = _context.Users.Find(id);
+
+            if (User.IsInRole("Admin"))
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+
+                return RedirectToAction("ManageUsers");
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        [HttpGet]
+        public async Task<string> GetCurrentUserId()
+        {
+            ApplicationUser usr = await GetCurrentUserAsync();
+            return usr?.Id;
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public async Task<ActionResult> Details()
+        {
+            string strCurrentUserId = await GetCurrentUserId();
+
+            var user = _context.Users.Find(strCurrentUserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (User.IsInRole("Regular") || User.IsInRole("Author") ||
+                User.IsInRole("Admin"))
+            {
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        //CreateAuthor
+        public ActionResult CreateAuthor()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAuthor(RegisterViewModel model)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Gender = model.Gender,
+                        BirthDate = model.BirthDate
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Author");
+                        return RedirectToAction("ManageUsers");
+                    }
+
+                    AddErrors(result);
+                }
+
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         [TempData]
@@ -220,10 +387,23 @@ namespace FinalProject.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Gender = model.Gender,
+                    BirthDate = model.BirthDate
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Regular");
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -232,7 +412,7 @@ namespace FinalProject.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Status", "News");
                 }
                 AddErrors(result);
             }
@@ -435,6 +615,93 @@ namespace FinalProject.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        public List<SearchUserOutput> SearchUserResult(string email, string firstName, string lastName, string roleType, int minCount)
+        {
+            if (email == DEFULT_RESULT)
+            {
+                email = string.Empty;
+            }
+
+            if (firstName == DEFULT_RESULT)
+            {
+                firstName = string.Empty;
+            }
+
+            if (lastName == DEFULT_RESULT)
+            {
+                lastName = string.Empty;
+            }
+
+            if (roleType == DEFULT_RESULT)
+            {
+                roleType = string.Empty;
+            }
+
+            var users = (from user in _context.Users
+                         join article in _context.Articles on user.Id equals article.AuthorID
+                         into j1
+                         from j2 in j1.DefaultIfEmpty()
+                         where user.FirstName.Contains(firstName) &&
+                         user.LastName.Contains(lastName) &&
+                         user.Email.Contains(email)
+                         group j2 by user into newGroup
+                         select new
+                         {
+                             user = newGroup.Key,
+                             CountOfArticles = newGroup.Count(t => t.AuthorID != null)
+                         }).Where(c => c.CountOfArticles >= minCount).ToList();
+
+            // Gets specific roleId
+            var roleId = _context.Roles.Where(r => r.Name == roleType).Select(r => new { r.Id }).FirstOrDefault();
+
+            List<SearchUserOutput> resultOfSearch = new List<SearchUserOutput>();
+
+            if (roleId != null)
+            {
+                foreach (var userItem in users)
+                {
+                    /* if (userItem.user.Roles.ToList().FirstOrDefault().RoleId == roleId.Id)
+                     {
+                         resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleType));
+                     }*/
+                }
+            }
+            // In case all the roles accepted
+            else
+            {
+                foreach (var userItem in users)
+                {
+                    /*var userRoleId = userItem.user.Roles.ToList().FirstOrDefault().RoleId;
+                    var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
+
+                    resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleName.Name));*/
+                }
+            }
+
+            return resultOfSearch;
+        }
+
+
+        public ActionResult SearchUsers(string email, string firstName, string lastName, string roleType, int minCount)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var resultToShow = SearchUserResult(email, firstName, lastName, roleType, minCount);
+
+                // return this.Json(resultToShow, JsonRequestBehavior.AllowGet);
+                return NotFound();
+            }
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
+            {
+                return RedirectToAction("PrivilegeError", "News");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
         }
 
         #region Helpers

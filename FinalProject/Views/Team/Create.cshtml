@@ -1,0 +1,54 @@
+﻿@model FinalProject.Models.Team
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Team</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Zoom" class="control-label"></label>
+                <input asp-for="Zoom" class="form-control" />
+                <span asp-validation-for="Zoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lattitude" class="control-label"></label>
+                <input asp-for="Lattitude" class="form-control" />
+                <span asp-validation-for="Lattitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longtidute" class="control-label"></label>
+                <input asp-for="Longtidute" class="form-control" />
+                <span asp-validation-for="Longtidute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<environment include="Development">
+    <script src="~/js/jquery.validate.js"></script>
+</environment>
+

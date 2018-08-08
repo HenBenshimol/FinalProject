@@ -1,0 +1,79 @@
+﻿@model IEnumerable<FinalProject.Models.Team>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="search-tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0" class="search-tbl">
+            <thead>
+                <tr>
+                    <th class="search-tbl-th">@Html.TextBox("teamName", "", new { @class = "search-box", @style = "width:80%", @placeholder = "Name" })</th>
+                    <th class="search-tbl-th">@Html.TextBox("teamDescription", "", new { @class = "search-box", @style = "width:80%", @placeholder = "Dsescription" })</th>
+                    <th class="search-tbl-th"><input type="submit" value="Search" class="btn search-btn" /></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+}
+<br />
+<br />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lattitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longtidute)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zoom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lattitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longtidute)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TeamID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.TeamID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.TeamID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,766 @@
+﻿body {
+}
+
+.page-wrapper {
+    position: relative;
+}
+
+@font-face {
+    font-family: webFont;
+    src: url(sansation_light.woff);
+    font-weight: bold;
+}
+
+.one-article-text {
+    float: right;
+    width: 40%;
+    margin-right: 7%;
+    overflow: hidden;
+    color: #020000;
+}
+
+.top-one-dd {
+    height: 320px;
+    width: 1070px;
+    background: linear-gradient(rgb(228, 228, 228), rgb(241, 241, 241));
+    overflow: hidden;
+    -webkit-border-radius: 11px;
+}
+
+.one-article-p {
+    height: 215px;
+}
+
+.each-top-five {
+    width: 500px;
+    float: left;
+    margin-right: 70px;
+}
+
+.five-article-text {
+    float: right;
+    width: 260px;
+    margin-right: 50px;
+    height: 175px;
+    overflow: hidden;
+    margin-top: -10px;
+    color: #020000;
+}
+
+.top-five-dd {
+    height: 185px;
+    background: linear-gradient(rgb(228, 228, 228), rgb(241, 241, 241));
+    -webkit-border-radius: 11px;
+}
+
+
+
+.each-later-articles {
+    width: 22%;
+    float: left;
+    margin-right: 20px;
+}
+
+.later-article-dd {
+    height: 220px;
+    background: linear-gradient(rgb(228, 228, 228), rgb(241, 241, 241));
+    -webkit-border-radius: 11px;
+}
+
+.later-article-text {
+    float: right;
+    width: 80%;
+    margin-right: 5%;
+    height: 49px;
+    overflow: hidden;
+    color: #020000;
+    margin-left: 5%;
+    margin-top: -3%;
+    align-content: center;
+}
+
+
+/*------------------------------
+=CONTENT AREA AND SIDEBAR LAYOUT
+------------------------------*/
+
+#content {
+    display: table;
+}
+
+h3.asideTitle {
+    font-weight: bold;
+}
+
+#mainContent {
+    font-family: webFont;
+    display: table-cell;
+    width: 620px;
+    padding-right: 22px;
+}
+
+aside {
+    display: table-cell;
+    width: 300px;
+    background: url("../Images/sidebar_background.png") top left;
+}
+
+
+/*------------------------------
+=SIDEBAR
+------------------------------*/
+aside {
+    position: fixed;
+    width: 425px;
+}
+
+    aside section {
+        margin: 22px 0 0 22px;
+        padding: 11px 22px;
+        /* Border-radius not implemented yet */
+        -moz-border-radius: 11px;
+        -webkit-border-radius: 11px;
+    }
+
+        aside section ul {
+            margin: 0 0 0 22px;
+            list-style: none;
+        }
+
+            aside section ul li a {
+                display: block;
+                text-decoration: none;
+                color: #000;
+            }
+
+                aside section ul li a:hover {
+                    text-decoration: underline;
+                }
+
+.Details-content {
+    display: table;
+}
+
+.main-content {
+    display: table-cell;
+}
+
+/*------------------------------
+=FOOTER
+------------------------------*/
+footer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #a81414;
+}
+
+    footer div {
+        display: table;
+        margin: 0 auto;
+        padding: 44px 0;
+        width: 940px;
+        color: #ffffff;
+    }
+
+
+        footer div section {
+            display: table-cell;
+            width: 300px;
+        }
+
+        footer div #about, footer div #blogroll {
+            padding-right: 40px;
+        }
+
+    footer h3 {
+        color: #FFF;
+    }
+
+    footer a {
+        color: #FFF;
+    }
+
+        footer a:hover {
+            color: #FFF;
+            text-decoration: none;
+        }
+
+    footer ul {
+        margin: 0 0 0 40px;
+        list-style: square;
+        color: #ffffff;
+    }
+
+        footer ul li a {
+            display: block;
+        }
+
+
+
+/*------------------------------
+=COMMENT SECTION
+------------------------------*/
+.comments-section {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+
+/** ====================
+ * Lista de Comentarios
+ =======================*/
+.comments-container {
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    width: 768px;
+}
+
+    .comments-container h1 {
+        font-size: 36px;
+        color: #283035;
+        font-weight: 400;
+    }
+
+.comments-list {
+    margin-top: 30px;
+    position: relative;
+}
+
+    /*-----------------------
+ * Lineas / Detalles
+ *-----------------------*/
+    .comments-list:before {
+        content: '';
+        width: 2px;
+        height: 100%;
+        background: #c7cacb;
+        position: absolute;
+        left: 32px;
+        top: 0;
+    }
+
+    .comments-list:after {
+        content: '';
+        position: absolute;
+        background: #c7cacb;
+        bottom: 0;
+        left: 27px;
+        width: 7px;
+        height: 7px;
+        border: 3px solid #dee1e3;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+
+    .comments-list li {
+        margin-bottom: 15px;
+        display: block;
+        position: relative;
+    }
+
+        .comments-list li:after {
+            content: '';
+            display: block;
+            clear: both;
+            height: 0;
+            width: 0;
+        }
+
+
+.comment-main-level:after {
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    clear: both;
+}
+/**
+ * Caja del Comentario
+ ---------------------------*/
+.comments-list .comment-box {
+    width: 680px;
+    float: right;
+    position: relative;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+
+    .comments-list .comment-box:before, .comments-list .comment-box:after {
+        content: '';
+        height: 0;
+        width: 0;
+        position: absolute;
+        display: block;
+        border-width: 10px 12px 10px 0;
+        border-style: solid;
+        border-color: transparent rgba(208, 196, 196, 0.42);
+        top: 8px;
+        left: -11px;
+    }
+
+    .comments-list .comment-box:before {
+        border-width: 11px 13px 11px 0;
+        border-color: transparent rgba(0,0,0,0.05);
+        left: -12px;
+    }
+
+
+.comment-box .comment-head {
+    background: rgba(208, 196, 196, 0.42);
+    padding: 10px 12px;
+    border-bottom: 1px solid #E5E5E5;
+    overflow: hidden;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+
+    .comment-box .comment-head i {
+        float: right;
+        margin-left: 14px;
+        position: relative;
+        top: 2px;
+        color: #A6A6A6;
+        cursor: pointer;
+        -webkit-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+
+        .comment-box .comment-head i:hover {
+            color: #03658c;
+        }
+
+.comment-box .comment-name {
+    color: #03658c;
+    font-size: 14px;
+    font-weight: 700;
+    float: left;
+    margin: 2px 5px 0px 0px;
+}
+
+
+.comment-box .comment-head span {
+    float: left;
+    color: #999;
+    font-size: 13px;
+    position: relative;
+    top: 1px;
+}
+
+.comment-box .comment-content {
+    background: rgba(208, 196, 196, 0.42);
+    padding: 12px;
+    font-size: 15px;
+    color: #595959;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+}
+
+
+/** =====================
+ * Responsive
+ ========================*/
+@media only screen and (max-width: 766px) {
+    .comments-container {
+        width: 480px;
+    }
+
+    .comments-list .comment-box {
+        width: 390px;
+    }
+}
+
+.post-comment-box-title {
+    background-color: rgba(190, 190, 190, 0.36);
+    font-size: 0.9em;
+    outline: none;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 5px;
+    width: 25%;
+    -webkit-transition: width 20s;
+    transition: width 2s;
+}
+
+    .post-comment-box-title:focus {
+        width: 100%;
+    }
+
+.post-comment-box {
+    background-color: rgba(190, 190, 190, 0.36);
+    font-size: 0.9em;
+    outline: none;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 5px;
+    width: 25%;
+    height: 50px;
+    -webkit-transition: width 2s, height 2s;
+    transition: width 2s, height 2s;
+}
+
+    .post-comment-box:focus {
+        width: 100%;
+        height: 100px;
+    }
+
+.post-btn {
+    border: 1px solid transparent;
+    padding: 5px 1rem;
+    font-size: 16px;
+    border-radius: .25rem;
+    background-color: rgba(0, 3, 4, 0.75);
+    color: #ffffff;
+    margin-top: 15px;
+}
+
+.elegantshadow {
+    color: rgba(0,0,0,0.6);
+    text-shadow: 2px 8px 6px rgba(0,0,0,0.2), 0px -5px 35px rgba(255,255,255,0.3);
+}
+
+
+
+.article-title {
+    font-size: 50px;
+    font-family: Impact;
+    color: #2d2d2d;
+}
+
+.myCanvas {
+    margin: 20px 0px -35px 0px;
+}
+
+.erroe-page {
+    margin-top: 5%;
+    margin-left: 15%
+}
+
+.error-image {
+    margin-left: 22%
+}
+
+.button-main {
+    margin: 22px;
+    margin-left: 27%;
+}
+
+
+/*Button Two*/
+.button-two {
+    background-color: #73b300;
+    color: white;
+    font-size: 26px;
+    border-radius: 4px;
+    border: none;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+}
+
+
+    .button-two span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+        .button-two span:after {
+            content: '»';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+    .button-two:hover span {
+        padding-right: 25px;
+    }
+
+        .button-two:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+/*-------------------
+    Date    
+-------------------*/
+.datebox {
+    width: 300px;
+    height: 100px;
+    position: relative;
+    margin: 100px auto;
+}
+
+    .datebox label {
+        display: block;
+        position: absolute;
+        left: 24px;
+        top: -42px;
+        font-size: 28px;
+    }
+
+.dp_choice::selection, .dp_choice ol::selection, .dp_choice ol li::selection, .dp_choice span::selection {
+    background-color: transparent;
+}
+
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 100%;
+}
+
+.dp_choice {
+    margin: 5px 0 15px;
+}
+
+.dp_years, .dp_months {
+    box-shadow: 0 0 1px rgba(0,0,0,.5);
+}
+
+.dp_choice li {
+    float: left;
+    text-align: center;
+    font-size: 20px;
+    background-color: #f7f7f7;
+    padding: 15px 0;
+    color: #555;
+    display: block;
+    cursor: pointer;
+}
+
+.dp_years li, .dp_months li {
+    width: 33.333333%;
+}
+
+    .dp_years li:nth-child(2n+2), .dp_months li:nth-child(2n+2) {
+        background-color: #dedede;
+    }
+
+.dp_yearNav {
+    display: block;
+    background-color: #666;
+    color: white;
+    text-align: center;
+    height: 15px;
+    padding: 10px 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dp_days {
+    position: relative;
+    zoom: 1;
+    vertical-align: top;
+    text-align: left;
+}
+
+    .dp_days table {
+        width: 100%;
+        table-layout: fixed;
+        text-align: center;
+        border-spacing: 0;
+        border-collapse: collapse;
+        font-size: 18px;
+    }
+
+    .dp_days th, .dp_tag:hover {
+        background-color: #666;
+        color: #fff;
+    }
+
+    .dp_days th, .dp_days td {
+        border: 1px solid #dedede;
+        padding: 10px;
+        font-weight: normal;
+    }
+
+    .dp_days td {
+        cursor: pointer;
+    }
+
+td.dp_current, li.dp_current {
+    background: #333;
+    color: #fff;
+}
+
+.dp_days th {
+    pointer-events: none;
+}
+
+.dp_empty_day {
+    background-color: #dedede;
+    pointer-events: none;
+}
+
+.dp_years li:hover, .dp_months li:hover, .dp_days td:hover {
+    background-color: #999;
+    color: #fff;
+}
+
+.dp_tagBox {
+    width: 96%;
+    border: 1px solid #CACACA;
+    color: #444;
+    float: left;
+    font-size: 1.4em;
+    padding: 2%;
+    cursor: text;
+    margin-bottom: 5px;
+}
+
+    .dp_tagBox input {
+        border: none;
+        width: 10%;
+        background-color: transparent;
+        font-size: .8em;
+    }
+
+        .dp_tagBox input:focus {
+            outline: none;
+        }
+
+
+.dp_tag {
+    margin-right: 2%;
+    padding: 1% 2%;
+    float: left;
+    cursor: pointer;
+    background: #333;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.datebox input[type=date] {
+}
+
+/*------------------
+    Wiki 
+-----------------*/
+.wiki-div {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    font-family: webFont;
+    font-size: 20px;
+}
+
+/*------------------
+    Search 
+-----------------*/
+.search-tbl-header {
+    background: #a81414;
+    -webkit-border-radius: 20px;
+    max-width: 1070px;
+}
+
+.search-tbl {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.search-tbl-th {
+    padding: 20px 15px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.search-box {
+    -webkit-border-radius: 5px;
+    height: 30px;
+    padding-left: 3px;
+    width: 120%;
+    max-width: 400px;
+    font-size: 16px;
+}
+
+.search-btn {
+    color: #ffffff;
+    background-color: #3b3e3f;
+    border-color: #3b3e3f;
+}
+
+.search-drp-dwn {
+    -webkit-border-radius: 5px;
+    height: 30px;
+    padding-left: 3px;
+    width: 120%;
+    font: 16px Arial;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+    color: gray;
+}
+
+
+/*-------------------
+        Date
+--------------------*/
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"], focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.birth-date {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
