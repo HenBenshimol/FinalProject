@@ -1,0 +1,82 @@
+﻿@model FinalProject.Models.Article
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+<div id="content">
+    <div id="mainContent">
+        <section>
+            <header>
+                <h1 class="article-title">@Html.DisplayFor(model => model.Title) </h1>
+            </header>
+            <h4> published by <b>@Html.DisplayFor(model => model.Author)</b> at @Html.DisplayFor(model => model.PublishDate) </h4>
+            <dl>
+                <dd>
+                    @{var imagePath = "../../wwwroot/Images/" + Model.Image;
+                        if (Model.Image == null) { imagePath = ""; } }
+                    <img id="detailsImage" src=@imagePath alt=@Model.Image style="max-height: 450px; max-width: 800px; border-radius: 8px;" />
+                </dd>
+                <dd>
+                    <div style="white-space: pre-line">
+                        <p style="font-size:18px; ">@Html.DisplayFor(model => model.Text)</p>
+                    </div>
+                </dd>
+            </dl>
+        </section>
+
+        <section class="comments-section">
+            <div class="comments-container">
+                <h1 class="elegantshadow">Comments</h1>
+                <ul id="comments-list" class="comments-list">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <li>
+                            <div class="comment-main-level">
+                                <!-- Contenedor del Comentario -->
+                                <div class="comment-box">
+                                    <div class="comment-head">
+                                        <h6 class="comment-name">@Html.DisplayFor(modelItem => comment.CommentTitle)</h6>
+                                        <span>by @Html.DisplayFor(modelItem => comment.CommentUser) at @Html.DisplayFor(modelItem => comment.PublishDate)</span>
+                                    </div>
+                                    <div class="comment-content">
+                                        @Html.DisplayFor(modelItem => comment.Text)
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Respuestas de los comentarios -->
+                        </li>
+                    }
+                </ul>
+            </div>
+        </section>
+        @using (Html.BeginForm("NewComment", "Article", null, FormMethod.Post))
+        {
+            <h4>Post a new comment</h4>
+            <br />
+
+            <input name="ArticleID" id="ArticleID" type="hidden" value="@(Model.ID)" required />
+            <input name="CommentUser" id="CommentUser" type="hidden" />
+
+            <input class="post-comment-box-title" placeholder="Title" name="CommentTitle" id="CommentTitle" type="text" required />
+
+            <br />
+            <textarea class="post-comment-box" placeholder="place your comment here" name="Text" id="Text" required></textarea>
+            <br />
+            <input type="submit" value="Post comment" class="post-btn" />
+        }
+    </div>
+    <aside>
+        @{ var videoPath = "../../wwwroot/Videos/" + Model.Video;
+            if (Model.Video != null)
+            {
+                <section>
+                    <video id="detailsVideo" src=@videoPath style="width: 360px; margin-top: 10px;" controls="controls" alt=@Model.Video
+                           onerror="this.style.visibility = 'hidden'" />
+                </section>
+            }
+        }
+    </aside>
+</div>
+

@@ -1,0 +1,68 @@
+﻿@model FinalProject.Models.Article
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Article</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuthorID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+        <dd>
+            @{var imagePath = "../../wwwroot/Images/" + Model.Image;
+                if (Model.Image == null) { imagePath = ""; } }
+            <img id="detailsImage" src=@imagePath style="width:250px; height:250px;" alt=@Model.Image />
+        </dd>
+        <dd>
+            @{ var videoPath = "../../wwwroot/Videos/" + Model.Video;
+                if (Model.Video == null) { videoPath = ""; }}
+            <video id="detailsVideo" src=@videoPath style="width:500px; margin-top: 20px;" controls="controls" alt=@Model.Video
+                   onerror="this.style.visibility = 'hidden'" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SearchCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SearchCount)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
