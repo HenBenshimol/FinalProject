@@ -62,7 +62,7 @@ namespace FinalProject
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=News}/{action=Status}/{id?}");
             });
 
             // Create seed data
