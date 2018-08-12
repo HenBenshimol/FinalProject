@@ -110,17 +110,13 @@ namespace FinalProject.Controllers
         // GET: News/Status
         public ActionResult Status()
         {
-            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("NormalUser"))
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
             {
                 return View();
             }
-            /* else if (User.IsInRole("NormalUser"))
-             {
-                 return RedirectToAction("PrivilegeError", "News");
-             }*/
             else
             {
-                return RedirectToAction("Status", "News");
+                return RedirectToAction("Login", "Account");
             }
 
         }
