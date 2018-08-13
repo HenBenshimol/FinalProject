@@ -714,7 +714,7 @@ namespace FinalProject.Controllers
             }
         }
 
-        private IActionResult RedirectToLocal(string returnUrl)
+        private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
@@ -722,7 +722,8 @@ namespace FinalProject.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                //return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Status", "News");
             }
         }
 
