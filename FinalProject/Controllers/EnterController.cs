@@ -53,7 +53,7 @@ namespace FinalProject.Controllers
             {
                 return View();
             }
-            else if (User.IsInRole("NormalUser") || User.IsInRole("Author"))
+            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
             {
                 return RedirectToAction("PrivilegeError", "News");
             }

@@ -96,16 +96,16 @@ namespace FinalProject.Data
             {
                 var teams = new Team[]
                 {
-                    new Team{TeamID=1, Name="Germany", Description="---Germany - 1,558 Points", Zoom=3, Lattitude=50.744407, Longtidute=10.106440},
-                    new Team{TeamID=2, Name="Brazil", Description="---Brazil - 1,431 Points", Zoom=3, Lattitude=-10.093902, Longtidute=-56.183146},
-                    new Team{TeamID=3, Name="Belgium", Description="---Belgium - 1,298 Points", Zoom=3, Lattitude=50.656166, Longtidute=4.603757},
-                    new Team{TeamID=4, Name="Portugal", Description="---Portugal - 1,274 Points", Zoom=3, Lattitude=50.656166, Longtidute=4.603757},
-                    new Team{TeamID=5, Name="Argentina", Description="---Argentina - 1,241 Points", Zoom=3, Lattitude=-34.493360, Longtidute=-65.980877},
-                    new Team{TeamID=6, Name="Switzerland", Description="---Switzerland - 1,199 Points", Zoom=3, Lattitude=46.700945, Longtidute=7.917856},
-                    new Team{TeamID=7, Name="France", Description="---France - 1,198 Points", Zoom=3, Lattitude=46.379985, Longtidute=2.473094},
-                    new Team{TeamID=8, Name="Poland", Description="---Poland - 1,183 Points", Zoom=3, Lattitude=52.608496, Longtidute=18.542962},
-                    new Team{TeamID=9, Name="Chile", Description="---Chile - 1,135 Points", Zoom=3, Lattitude=-27.407033, Longtidute=-70.271237},
-                    new Team{TeamID=10, Name="Spain", Description="---Spain - 1,126 Points", Zoom=3, Lattitude=39.994922, Longtidute=-3.649235}
+                    new Team{Name="Germany", Description="---Germany - 1,558 Points", Zoom=3, Lattitude=50.744407, Longtidute=10.106440},
+                    new Team{Name="Brazil", Description="---Brazil - 1,431 Points", Zoom=3, Lattitude=-10.093902, Longtidute=-56.183146},
+                    new Team{Name="Belgium", Description="---Belgium - 1,298 Points", Zoom=3, Lattitude=50.656166, Longtidute=4.603757},
+                    new Team{Name="Portugal", Description="---Portugal - 1,274 Points", Zoom=3, Lattitude=50.656166, Longtidute=4.603757},
+                    new Team{Name="Argentina", Description="---Argentina - 1,241 Points", Zoom=3, Lattitude=-34.493360, Longtidute=-65.980877},
+                    new Team{Name="Switzerland", Description="---Switzerland - 1,199 Points", Zoom=3, Lattitude=46.700945, Longtidute=7.917856},
+                    new Team{Name="France", Description="---France - 1,198 Points", Zoom=3, Lattitude=46.379985, Longtidute=2.473094},
+                    new Team{Name="Poland", Description="---Poland - 1,183 Points", Zoom=3, Lattitude=52.608496, Longtidute=18.542962},
+                    new Team{Name="Chile", Description="---Chile - 1,135 Points", Zoom=3, Lattitude=-27.407033, Longtidute=-70.271237},
+                    new Team{Name="Spain", Description="---Spain - 1,126 Points", Zoom=3, Lattitude=39.994922, Longtidute=-3.649235}
                 };
 
                 foreach (Team t in teams)

@@ -264,6 +264,31 @@ namespace FinalProject.Controllers
             }
         }
 
+        // GET: Beach/json
+        public ActionResult Json()
+        {
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            {
+                return this.Json(_context.Teams.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult Map()
+        {
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.TeamID == id);

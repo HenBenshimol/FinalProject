@@ -78,7 +78,7 @@
 }
 
 
-@if (User.IsInRole("NormalUser") || User.IsInRole("Admin") || User.IsInRole("Author"))
+@if (User.IsInRole("Regular") || User.IsInRole("Admin") || User.IsInRole("Author"))
 {
     <div class="top-one">
         <div class="search-tbl-header">

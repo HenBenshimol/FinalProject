@@ -124,16 +124,17 @@ namespace FinalProject.Controllers
 
         public async Task<ActionResult> Details()
         {
-            string strCurrentUserId = await GetCurrentUserId();
+            string strCurrentUserId = _userManager.GetUserId(User);
 
-            var user = _context.Users.Find(strCurrentUserId);
+            var user = await _userManager.FindByIdAsync(strCurrentUserId);
+
+            //var user = _context.Users.Find(strCurrentUserId);
 
             if (user == null)
             {
                 return NotFound();
             }
-
-            if (User.IsInRole("Regular") || User.IsInRole("Author") ||
+            else if (User.IsInRole("Regular") || User.IsInRole("Author") ||
                 User.IsInRole("Admin"))
             {
                 return View(user);
