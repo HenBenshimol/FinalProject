@@ -30,23 +30,26 @@
             <div class="comments-container">
                 <h1 class="elegantshadow">Comments</h1>
                 <ul id="comments-list" class="comments-list">
-                    @foreach (var comment in Model.Comments)
+                    @if (Model.Comments != null)
                     {
-                        <li>
-                            <div class="comment-main-level">
-                                <!-- Contenedor del Comentario -->
-                                <div class="comment-box">
-                                    <div class="comment-head">
-                                        <h6 class="comment-name">@Html.DisplayFor(modelItem => comment.CommentTitle)</h6>
-                                        <span>by @Html.DisplayFor(modelItem => comment.CommentUser) at @Html.DisplayFor(modelItem => comment.PublishDate)</span>
-                                    </div>
-                                    <div class="comment-content">
-                                        @Html.DisplayFor(modelItem => comment.Text)
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <li>
+                                <div class="comment-main-level">
+                                    <!-- Contenedor del Comentario -->
+                                    <div class="comment-box">
+                                        <div class="comment-head">
+                                            <h6 class="comment-name">@Html.DisplayFor(modelItem => comment.CommentTitle)</h6>
+                                            <span>by @Html.DisplayFor(modelItem => comment.CommentUser) at @Html.DisplayFor(modelItem => comment.PublishDate)</span>
+                                        </div>
+                                        <div class="comment-content">
+                                            @Html.DisplayFor(modelItem => comment.Text)
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Respuestas de los comentarios -->
-                        </li>
+                                <!-- Respuestas de los comentarios -->
+                            </li>
+                        }
                     }
                 </ul>
             </div>

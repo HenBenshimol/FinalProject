@@ -1,48 +1,54 @@
 ﻿@model FinalProject.Models.Comment
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Comment</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ArticleComment.Title)
+            </dt>
 
-@{
-    ViewData["Title"] = "Details";
-}
+            <dd>
+                @Html.DisplayFor(model => model.ArticleComment.Title)
+            </dd>
 
-<h2>Details</h2>
+            <dt>
+                @Html.DisplayNameFor(model => model.CommentTitle)
+            </dt>
 
-<div>
-    <h4>Comment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CommentTitle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CommentTitle)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CommentUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CommentUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ArticleComment)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ArticleComment.Text)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+            <dd>
+                @Html.DisplayFor(model => model.CommentTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CommentUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CommentUser)
+            </dd>
+
+            <dd>
+                <div style="white-space: pre-line">
+                    @Html.DisplayFor(model => model.Text)
+                </div>
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.Text)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

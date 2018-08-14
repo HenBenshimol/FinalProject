@@ -27,15 +27,16 @@ namespace FinalProject.Controllers
         private readonly ILogger _logger;
 
         private string DEFULT_RESULT = "###";
-        private readonly ApplicationDbContext _context;
-
+        private ApplicationDbContext _context;
 
         public AccountController(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -127,8 +128,6 @@ namespace FinalProject.Controllers
             string strCurrentUserId = _userManager.GetUserId(User);
 
             var user = await _userManager.FindByIdAsync(strCurrentUserId);
-
-            //var user = _context.Users.Find(strCurrentUserId);
 
             if (user == null)
             {
@@ -640,6 +639,7 @@ namespace FinalProject.Controllers
                 roleType = string.Empty;
             }
 
+
             var users = (from user in _context.Users
                          join article in _context.Articles on user.Id equals article.AuthorID
                          into j1
@@ -691,8 +691,7 @@ namespace FinalProject.Controllers
             {
                 var resultToShow = SearchUserResult(email, firstName, lastName, roleType, minCount);
 
-                // return this.Json(resultToShow, JsonRequestBehavior.AllowGet);
-                return NotFound();
+                return this.Json(resultToShow);
             }
             else if (User.IsInRole("Regular") || User.IsInRole("Author"))
             {
@@ -723,7 +722,6 @@ namespace FinalProject.Controllers
             }
             else
             {
-                //return RedirectToAction(nameof(HomeController.Index), "Home");
                 return RedirectToAction("Status", "News");
             }
         }

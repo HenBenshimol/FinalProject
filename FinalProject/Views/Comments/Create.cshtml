@@ -1,55 +1,62 @@
 ﻿@model FinalProject.Models.Comment
-
 @{
-    ViewData["Title"] = "Create";
+    ViewBag.Title = "Create";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create comment</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-<h2>Create</h2>
-
-<h4>Comment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-horizontal">
+            <h4>Create comment</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                <label asp-for="ArticleID" class="control-label"></label>
-                <select asp-for="ArticleID" class="form-control" asp-items="ViewBag.ArticleID"></select>
+                @Html.LabelFor(model => model.ArticleID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ArticleID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ArticleID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CommentTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommentTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PublishDate, new { htmlAttributes = new { @placeholder = @System.DateTime.Now, @class = "form-control", @disabled = "disabled" } })
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="CommentTitle" class="control-label"></label>
-                <input asp-for="CommentTitle" class="form-control" />
-                <span asp-validation-for="CommentTitle" class="text-danger"></span>
+                @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <textarea rows="10" cols="30" name="Text" id="Text" required></textarea>
+                    @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="CommentUser" class="control-label"></label>
-                <input asp-for="CommentUser" class="form-control" />
-                <span asp-validation-for="CommentUser" class="text-danger"></span>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CommentUser, new { htmlAttributes = new { @style = "display: none" } })
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
-                <span asp-validation-for="Text" class="text-danger"></span>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" /> | @Html.ActionLink("Back to comments list", "Index")
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PublishDate" class="control-label"></label>
-                <input asp-for="PublishDate" class="form-control" />
-                <span asp-validation-for="PublishDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-
-
+        </div>
+    }
+</body>
+</html>

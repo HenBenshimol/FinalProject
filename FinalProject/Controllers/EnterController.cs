@@ -47,6 +47,39 @@ namespace FinalProject.Controllers
             }
         }
 
+        public ActionResult Json()
+        {
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            {
+                var articleEnters = _context.Enters
+                    .Join(
+                        _context.Articles,
+                        enter => enter.ArticleId,
+                        article => article.ID,
+                        (enter, article) => new { Article = article, Enter = enter }
+                    )
+                    .GroupBy(c => new {
+                        ArticleTitle = c.Article.Title
+                    })
+                    .Select(c => new {
+                        articleTitle = c.Key.ArticleTitle,
+                        total = c.Count()
+                    })
+                    .OrderBy(a => a.total)
+                    .ToList();
+                List<Output> jsonOutput = new List<Output>();
+                foreach (var a in articleEnters)
+                {
+                    jsonOutput.Add(new Output(a.articleTitle, a.total));
+                }
+                return this.Json(jsonOutput);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
         public ActionResult Diagnostics()
         {
             if (User.IsInRole("Admin"))
@@ -63,8 +96,8 @@ namespace FinalProject.Controllers
             }
         }
 
+        // Created Automaticly
         /*
-
         // GET: Enter/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -77,6 +110,7 @@ namespace FinalProject.Controllers
                 .Include(e => e.EnterArticle)
                 .Include(e => e.EnterUser)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (enter == null)
             {
                 return NotFound();
@@ -195,8 +229,8 @@ namespace FinalProject.Controllers
             _context.Enters.Remove(enter);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }*/
-
+        }
+        */
         private bool EnterExists(int id)
         {
             return _context.Enters.Any(e => e.Id == id);

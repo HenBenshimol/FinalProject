@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models;
+using System.Dynamic;
 
 namespace FinalProject.Controllers
 {
@@ -287,6 +288,11 @@ namespace FinalProject.Controllers
                     //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
                     ApplicationUser user = _context.Users.Find(strCurrentUserId);
 
+                    /*
+                     * string strCurrentUserId = _userManager.GetUserId(User);
+
+                    var user = await _userManager.FindByIdAsync(strCurrentUserId);*/
+
                     comment.ArticleComment = _context.Articles.Find(comment.ArticleID);
                     comment.CommentUser = user.FirstName + " " + user.LastName;
 
@@ -319,33 +325,32 @@ namespace FinalProject.Controllers
         };
 
         // GET: Articale/ByMonth
-        /*   public ActionResult ByMonth()
-           {
-               List<PerMonth> temp = new List<PerMonth>();
-               for (int i = 1; i < months.Count + 1; i++)
-               {
-                   temp.Add(new PerMonth(i, 0));
-               }
-               var articlesByMonth = _context.Articles
-               .GroupBy(c => new {
-                   Month = c.PublishDate.Month
-               })
-               .Select(c => new {
-                   Month = c.Key.Month,
-                   Total = c.Count()
-               })
-               .OrderByDescending(a => a.Month)
-               .ToList();
+        public ActionResult ByMonth()
+        {
+            List<PerMonth> temp = new List<PerMonth>();
+            for (int i = 1; i < months.Count + 1; i++)
+            {
+                temp.Add(new PerMonth(i, 0));
+            }
+            var articlesByMonth = _context.Articles
+            .GroupBy(c => new {
+                Month = c.PublishDate.Month
+            })
+            .Select(c => new {
+                Month = c.Key.Month,
+                Total = c.Count()
+            })
+            .OrderByDescending(a => a.Month)
+            .ToList();
 
-               foreach (var month in articlesByMonth)
-               {
-                   temp[month.Month - 1].Total = month.Total;
-               }
-               return this.Json(temp, JsonRequestBehavior.AllowGet);
-           }*/
+            foreach (var month in articlesByMonth)
+            {
+                temp[month.Month - 1].Total = month.Total;
+            }
+            return this.Json(temp);
+        }
 
         // GET: Articale/Diagnostics
-
         public ActionResult Diagnostics()
         {
             if (User.IsInRole("Admin"))

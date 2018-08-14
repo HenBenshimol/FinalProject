@@ -289,6 +289,18 @@ namespace FinalProject.Controllers
             }
         }
 
+        public ActionResult GameStatistics()
+        {
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.TeamID == id);

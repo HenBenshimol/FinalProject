@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinalProject.Data;
@@ -37,6 +38,11 @@ namespace FinalProject
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAntiforgery(options =>
+            {
+                options.SuppressXFrameOptionsHeader = false;
+            });
+
             services.AddMvc();
         }
 
@@ -64,6 +70,7 @@ namespace FinalProject
                     name: "default",
                     template: "{controller=News}/{action=Status}/{id?}");
             });
+            
 
             // Create seed data
             FinalProject.Data.Initialize.Initial(context, userManager, roleManager).Wait();

@@ -1,6 +1,6 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Create Author";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
+            <h4>Create a new author account.</h4>
             <hr />
             <div class="form-group">
                 <label asp-for="Email"></label>
