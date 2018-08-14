@@ -639,7 +639,18 @@ namespace FinalProject.Controllers
                 roleType = string.Empty;
             }
 
+            var users = (from user in _context.Users
+                         join article in _context.Articles on user.Id equals article.AuthorID
+                         group new { user, article } by new { user.Id } into j1
+                         select new
+                         {
+                             j1.Key.Id,
+                             user = j1.Select(x => x.user),
+                             CountOfArticles = j1.Count(t => t.article.AuthorID != null)
+                         }).Where(c => c.CountOfArticles >= minCount).ToList();
 
+
+            /*
             var users = (from user in _context.Users
                          join article in _context.Articles on user.Id equals article.AuthorID
                          into j1
@@ -653,6 +664,7 @@ namespace FinalProject.Controllers
                              user = newGroup.Key,
                              CountOfArticles = newGroup.Count(t => t.AuthorID != null)
                          }).Where(c => c.CountOfArticles >= minCount).ToList();
+                         */
 
             // Gets specific roleId
             var roleId = _context.Roles.Where(r => r.Name == roleType).Select(r => new { r.Id }).FirstOrDefault();
@@ -674,10 +686,12 @@ namespace FinalProject.Controllers
             {
                 foreach (var userItem in users)
                 {
-                    /*var userRoleId = userItem.user.Roles.ToList().FirstOrDefault().RoleId;
-                    var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
+                    //var userRoleId = _context.UserRoles.Where(r => r.UserId == userItem.Id).Select(r => r.RoleId);
+                    //var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
+                    /* var userRoleId = userItem.user.Roles.ToList().FirstOrDefault().RoleId;
+                     var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
 
-                    resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleName.Name));*/
+                     resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleName.Name));*/
                 }
             }
 

@@ -37,7 +37,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Article
-        //public async Task<IActionResult> Index()
         public ActionResult Index()
         {
             string strCurrentUserId = User.Identity.GetUserId();
@@ -63,7 +62,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Article/Details/5
-        //public async Task<IActionResult> Details(int? id)
         public ActionResult Details(int? id)
         {
             if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
@@ -112,7 +110,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,AuthorID,Author,PublishDate,Text,Image,Video,SearchCount")] Article article)
-        //public ActionResult Create([Bind("ID,Title,AuthorID,Author,PublishDate,Text,Image,Video,SearchCount")] Article article, HttpPostedFileBase ImageUploud, HttpPostedFileBase VideoUpload)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +121,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Article/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
         public ActionResult Edit(int? id)
         {
             if (User.IsInRole("Admin") || User.IsInRole("Author"))
@@ -200,7 +196,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Article/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
         public ActionResult Delete(int? id)
         {
             if (User.IsInRole("Admin") || User.IsInRole("Author"))
@@ -243,7 +238,6 @@ namespace FinalProject.Controllers
         // POST: Article/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
         public ActionResult DeleteConfirmed(int id)
         {
             Article article = _context.Articles.Find(id);
@@ -285,13 +279,7 @@ namespace FinalProject.Controllers
                 if (ModelState.IsValid)
                 {
                     string strCurrentUserId = User.Identity.GetUserId();
-                    //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
                     ApplicationUser user = _context.Users.Find(strCurrentUserId);
-
-                    /*
-                     * string strCurrentUserId = _userManager.GetUserId(User);
-
-                    var user = await _userManager.FindByIdAsync(strCurrentUserId);*/
 
                     comment.ArticleComment = _context.Articles.Find(comment.ArticleID);
                     comment.CommentUser = user.FirstName + " " + user.LastName;
