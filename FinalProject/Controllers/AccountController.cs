@@ -649,22 +649,16 @@ namespace FinalProject.Controllers
                              CountOfArticles = j1.Count(t => t.article.AuthorID != null)
                          }).Where(c => c.CountOfArticles >= minCount).ToList();
 
+            var roles = (from user in _context.Users
+                          join role in _context.UserRoles on user.Id equals role.UserId
+                          join roleN in _context.Roles on role.RoleId equals roleN.Id
+                          select new
+                          {
+                              userId = user.Id.ToString(),
+                              roleName = roleN.Name.ToString(),
+                              roleId = role.RoleId.ToString()
+                          });
 
-            /*
-            var users = (from user in _context.Users
-                         join article in _context.Articles on user.Id equals article.AuthorID
-                         into j1
-                         from j2 in j1.DefaultIfEmpty()
-                         where user.FirstName.Contains(firstName) &&
-                         user.LastName.Contains(lastName) &&
-                         user.Email.Contains(email)
-                         group j2 by user into newGroup
-                         select new
-                         {
-                             user = newGroup.Key,
-                             CountOfArticles = newGroup.Count(t => t.AuthorID != null)
-                         }).Where(c => c.CountOfArticles >= minCount).ToList();
-                         */
 
             // Gets specific roleId
             var roleId = _context.Roles.Where(r => r.Name == roleType).Select(r => new { r.Id }).FirstOrDefault();
@@ -675,10 +669,12 @@ namespace FinalProject.Controllers
             {
                 foreach (var userItem in users)
                 {
-                    /* if (userItem.user.Roles.ToList().FirstOrDefault().RoleId == roleId.Id)
+                    var userroleId = roles.Where(r => r.userId == userItem.Id).Select(r => r.roleId).First().ToString();
+
+                    if (userroleId == roleId.Id)
                      {
-                         resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleType));
-                     }*/
+                         resultOfSearch.Add(new SearchUserOutput((FinalProject.Models.ApplicationUser)userItem.user, userItem.CountOfArticles, roleType));
+                     }
                 }
             }
             // In case all the roles accepted
@@ -686,12 +682,11 @@ namespace FinalProject.Controllers
             {
                 foreach (var userItem in users)
                 {
-                    //var userRoleId = _context.UserRoles.Where(r => r.UserId == userItem.Id).Select(r => r.RoleId);
-                    //var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
-                    /* var userRoleId = userItem.user.Roles.ToList().FirstOrDefault().RoleId;
-                     var roleName = _context.Roles.Where(r => r.Id == userRoleId).Select(r => new { r.Name }).FirstOrDefault();
+                    string roleName = roles.Where(r => r.userId == userItem.Id).Select(r => r.roleName).First().ToString();
 
-                     resultOfSearch.Add(new SearchUserOutput(userItem.user, userItem.CountOfArticles, roleName.Name));*/
+                    ApplicationUser u = _context.Users.Find(userItem.Id);
+
+                    resultOfSearch.Add(new SearchUserOutput(u, userItem.CountOfArticles, roleName));
                 }
             }
 
