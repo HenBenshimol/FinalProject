@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<FinalProject.Models.Article>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "News";
 }
 <environment include="Development">
     <link rel="stylesheet" href="~/css" />
 </environment>
-
 
 @section Scripts {
     <script>
@@ -77,7 +76,6 @@
     </script>
 }
 
-
 @if (User.IsInRole("Regular") || User.IsInRole("Admin") || User.IsInRole("Author"))
 {
     <div class="top-one">
@@ -95,7 +93,6 @@
                 </thead>
             </table>
         </div>
-        <div id="resultsView" />
     </div>
 
 
@@ -115,7 +112,7 @@
                 <a href=@hreff>
                     <dl>
                         <dd class="top-one-dd">
-                            @{var imagePath = "../../Visual/Images/" + item.Image;
+                            @{var imagePath = "/images/" + item.Image;
                                 if (item.Image == null) { imagePath = ""; } }
                             <img src=@imagePath style="width: 50%; height: 100%;" alt=@item.Image />
                             <div class="one-article-text">
@@ -147,7 +144,7 @@
                     <a href=@hreff>
                         <dl>
                             <dd class="top-five-dd">
-                                @{var imagePath = "../../wwwroot/Images/" + item.Image;
+                                @{var imagePath = "/images/" + item.Image;
                                     if (item.Image == null) { imagePath = ""; } }
                                 <img src=@imagePath style="width: 35%; height: 100%;" alt=@item.Image />
                                 <div class="five-article-text">
@@ -182,7 +179,7 @@
                     <a href=@hreff>
                         <dl>
                             <dd class="later-article-dd">
-                                @{var imagePath = "../../wwwroot/Images/" + item.Image;
+                                @{var imagePath = "/images/" + item.Image;
                                     if (item.Image == null) { imagePath = ""; } }
                                 <img id="detailsImage" src=@imagePath style="height: 80%; width: 100%;" alt=@item.Image />
                                 <div class="later-article-text">
@@ -204,3 +201,4 @@ else
 {
     <p> Please Login to view the content </p>
 }
+

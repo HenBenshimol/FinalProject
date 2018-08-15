@@ -42,12 +42,12 @@
             @Html.DisplayFor(model => model.Text)
         </dd>
         <dd>
-            @{var imagePath = "../../wwwroot/Images/" + Model.Image;
+            @{var imagePath = "/images/" + Model.Image;
                 if (Model.Image == null) { imagePath = ""; } }
             <img id="detailsImage" src=@imagePath style="width:250px; height:250px;" alt=@Model.Image />
         </dd>
         <dd>
-            @{ var videoPath = "../../wwwroot/Videos/" + Model.Video;
+            @{ var videoPath = "/images/" + Model.Video;
                 if (Model.Video == null) { videoPath = ""; }}
             <video id="detailsVideo" src=@videoPath style="width:500px; margin-top: 20px;" controls="controls" alt=@Model.Video
                    onerror="this.style.visibility = 'hidden'" />

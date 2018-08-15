@@ -14,7 +14,7 @@
             <h4> published by <b>@Html.DisplayFor(model => model.Author)</b> at @Html.DisplayFor(model => model.PublishDate) </h4>
             <dl>
                 <dd>
-                    @{var imagePath = "../../wwwroot/Images/" + Model.Image;
+                    @{var imagePath = "/images/" + Model.Image;
                         if (Model.Image == null) { imagePath = ""; } }
                     <img id="detailsImage" src=@imagePath alt=@Model.Image style="max-height: 450px; max-width: 800px; border-radius: 8px;" />
                 </dd>
@@ -71,7 +71,7 @@
         }
     </div>
     <aside>
-        @{ var videoPath = "../../wwwroot/Videos/" + Model.Video;
+        @{ var videoPath = "~/images/" + Model.Video;
             if (Model.Video != null)
             {
                 <section>
