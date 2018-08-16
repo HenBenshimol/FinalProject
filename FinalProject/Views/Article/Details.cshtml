@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
 <div id="content">
     <div id="mainContent">
         <section>
@@ -71,7 +70,7 @@
         }
     </div>
     <aside>
-        @{ var videoPath = "~/images/" + Model.Video;
+        @{ var videoPath = "/images/" + Model.Video;
             if (Model.Video != null)
             {
                 <section>
