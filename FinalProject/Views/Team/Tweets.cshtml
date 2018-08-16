@@ -1,0 +1,99 @@
+﻿@using TweetSharp
+
+@{
+    ViewBag.Title = "Tweets";
+}
+
+<canvas class="myCanvas" id="myCanvas" width="300" height="50">
+    Your browser does not support the canvas element.
+</canvas>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.font = "30px Palatino Linotype";
+
+    // Create gradient
+    var grd = ctx.createLinearGradient(0, 500, 750, 0);
+    grd.addColorStop(0, "MidnightBlue");
+    grd.addColorStop(1, "Aqua");
+
+
+    // Fill with gradient
+    ctx.fillStyle = "#2d2d2d;";
+    ctx.textAlign = "center";
+    ctx.fillText("FIFA Tweets", canvas.width / 2, canvas.height / 2);
+</script>
+<hr />
+<style>
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .headr img {
+        border: 0px;
+        vertical-align: top;
+    }
+
+    .header h4 {
+        position: relative;
+    }
+
+    .tweet {
+        margin: 10px;
+        border-bottom: 1px solid #808080;
+    }
+
+    .tweet div.picture {
+        float: left;
+    }
+
+    .tweet div.info {
+        float: left;
+        margin-left: 5px;
+    }
+
+        .tweet div.info a.text {
+            color: #f64fd4;
+        }
+
+    .tweet div.action a {
+        color: #00a5ff;
+    }
+
+    .tweet div.clear {
+        clear: both;
+    }
+</style>
+
+@if (ViewBag.Tweets != null)
+{
+    IEnumerable<TwitterStatus> tweets = ViewBag.Tweets as IEnumerable<TwitterStatus>;
+    string url = "";
+
+    foreach (var tweet in tweets)
+    {
+
+        <div>
+            <h4>
+                <img src=@tweet.User.ProfileImageUrlHttps alt=@tweet.User.ScreenName title=@tweet.User.ScreenName />
+                @tweet.User.ScreenName, @tweet.CreatedDate
+            </h4>
+        </div>
+        <div>
+            <span>@tweet.User.Name, @tweet.User.Description – @tweet.User.Location </span>
+        </div>
+        url = "https://twitter.com/statuses/" + @tweet.Id.ToString();
+        <div>
+            <a href=@url class="text">
+                @tweet.Text
+            </a>
+        </div>
+        <br />
+        <hr />
+    }
+}

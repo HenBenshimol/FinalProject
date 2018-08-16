@@ -692,6 +692,7 @@ td.dp_current, li.dp_current {
 }
 
 .search-box {
+    color: #3b3e3f;
     -webkit-border-radius: 5px;
     height: 30px;
     padding-left: 3px;

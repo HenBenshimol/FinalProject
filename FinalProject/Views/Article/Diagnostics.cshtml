@@ -22,6 +22,7 @@
     ctx.fillStyle = "#2d2d2d;";
     ctx.textAlign = "center";
     ctx.fillText("Graph of articles count posted by month", canvas.width / 2, canvas.height / 2);</script>
+<hr />
 
 <meta charset="utf-8">
 <svg width="960" height="500"></svg>
@@ -37,63 +38,63 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 
-var svg = d3.select("svg"),
-margin = {
-	top: 20,
-	right: 20,
-	bottom: 70,
-	left: 40
-    },
+    var svg = d3.select("svg"),
+        margin = {
+            top: 20,
+            right: 20,
+            bottom: 70,
+            left: 40
+        },
 
-width = +svg.attr("width") - margin.left - margin.right,
-height = +svg.attr("height") - margin.top - margin.bottom,
-g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-var x = d3.scaleBand()
-	.rangeRound([0, width])
-	.padding(0.05);
+    var x = d3.scaleBand()
+        .rangeRound([0, width])
+        .padding(0.05);
 
-var y = d3.scaleLinear()
-	.rangeRound([height, 0]);
+    var y = d3.scaleLinear()
+        .rangeRound([height, 0]);
 
 
     d3.json("ByMonth").then(function (data) {
-	    x.domain(data.map(function (d) {
-			    return d.month;
-		    }));
-	    y.domain([0, d3.max(data, function (d) {
-				    return Number(d.total);
-			    })]);
+        x.domain(data.map(function (d) {
+            return d.month;
+        }));
+        y.domain([0, d3.max(data, function (d) {
+            return Number(d.total);
+        })]);
 
-	g.append("g")
-	.attr("transform", "translate(0," + height + ")")
-	.call(d3.axisBottom(x))
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
 
-	g.append("g")
-	.call(d3.axisLeft(y))
-	.append("text")
-	.attr("fill", "#000")
-	.attr("transform", "rotate(-90)")
-	.attr("y", 6)
-	.attr("dy", "0.71em")
-	.attr("text-anchor", "end")
-	.text("Total");
+        g.append("g")
+            .call(d3.axisLeft(y))
+            .append("text")
+            .attr("fill", "#000")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("Total");
 
-	g.selectAll(".bar")
-	.data(data)
-	.enter().append("rect")
-	.attr("class", "bar")
-        .attr("x", function (d) {
-            return x(d.month);
-	})
-        .attr("y", function (d) {
-            return y(Number(d.total));
-	})
-	.attr("width", x.bandwidth())
-        .attr("height", function (d) {
-            return height - y(Number(d.total));
-	});
-});
+        g.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) {
+                return x(d.month);
+            })
+            .attr("y", function (d) {
+                return y(Number(d.total));
+            })
+            .attr("width", x.bandwidth())
+            .attr("height", function (d) {
+                return height - y(Number(d.total));
+            });
+    });
 
 </script>

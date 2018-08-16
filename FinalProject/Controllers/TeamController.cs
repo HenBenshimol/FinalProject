@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models;
+using TweetSharp;
 
 namespace FinalProject.Controllers
 {
@@ -289,10 +290,23 @@ namespace FinalProject.Controllers
             }
         }
 
-        public ActionResult GameStatistics()
+        public ActionResult Tweets()
         {
-            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
-            {
+            if(User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            { 
+                string consumerKey = "h2HP4QQT1KtJ2b7yzV2QYlZ8C";
+                string consumerSecret = "ZykLEiiDFtohllfVlmR0MunZODAgQpmcUUdJRjgiOGvPNAEHKf";
+                string accessToken = "1033276389720563712-rSe7s3DjAKpS8ehtz6YBoRuNgicff7";
+                string accessTokenSecret = "sbUi5zOafnq6Mmy5W6rahyJ07ptjDHdoEpvJxITsbD0Ay";
+
+                TwitterService twitterService = new TwitterService(consumerKey, consumerSecret);
+                twitterService.AuthenticateWith(accessToken, accessTokenSecret);
+
+                var tweets_search = twitterService.Search(new SearchOptions { Q = "#FIFA", Resulttype = TwitterSearchResultType.Popular, Count = 10 });
+                List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
+
+                ViewBag.Tweets = resultList;
+
                 return View();
             }
             else

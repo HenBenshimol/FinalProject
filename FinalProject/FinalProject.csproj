@@ -11,6 +11,8 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="Skybrud.Social" Version="0.9.6" />
+    <PackageReference Include="TweetSharp" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,10 +41,10 @@
     <Content Update="Views\Article\ByMonth.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Team\GameStatistics.cshtml">
+    <Content Update="Views\Team\Tweets.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Team\GameStatistics.cshtml">
+    <Content Update="Views\Team\Tweets.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

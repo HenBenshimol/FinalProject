@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models;
 using System.Dynamic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
+    [Route("[controller]/[action]")]
     public class ArticleController : Controller
     {
         static Dictionary<int, string> months = new Dictionary<int, string>()
@@ -37,13 +40,16 @@ namespace FinalProject.Controllers
         }
 
         // GET: Article
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string articleTitle, string autherName, string articleText, DateTime? StartDate, DateTime? EndDate)
         {
             string strCurrentUserId = User.Identity.GetUserId();
 
             if (User.IsInRole("Admin"))
             {
-                var articlesToShow = _context.Articles.ToList();
+                //var articlesToShow = _context.Articles.ToList();
+                var articlesToShow = SearcArticleResult(articleTitle, autherName, articleText, StartDate, EndDate);
+
                 return View(articlesToShow.ToList());
             }
             else if (User.IsInRole("Author"))
@@ -73,6 +79,10 @@ namespace FinalProject.Controllers
                 }
 
                 Article article = _context.Articles.Find(id);
+
+                article.Comments = _context.Comments.Where(c => c.ArticleID == article.ID).ToList();
+                    
+
                 if (article == null)
                 {
                     return NotFound();
@@ -113,6 +123,10 @@ namespace FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                var u = _context.UserRoles.Find(User.Identity.GetUserId());
+
+                article.PublishDate = DateTime.Today;
+                article.Author = User.Identity.GetUserName();
                 _context.Add(article);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -245,6 +259,16 @@ namespace FinalProject.Controllers
 
             if (User.IsInRole("Admin") || (User.IsInRole("Author") && (article.AuthorID == strCurrentUserId)))
             {
+                if(article.Comments != null)
+                {
+                    var comm = _context.Comments.Where(c => c.ArticleID.Equals(article.ID));
+
+                    foreach (var c in comm)
+                    {
+                        _context.Comments.Remove(c);
+                    }
+                }
+
                 _context.Articles.Remove(article);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -353,6 +377,42 @@ namespace FinalProject.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+        }
+        
+        public List<Article> SearcArticleResult(string articleTitle, string autherName, string articleText, DateTime? fromDate, DateTime? toDate)
+        {
+            var articles = from a in _context.Articles select a;
+
+            if (!String.IsNullOrEmpty(articleTitle))
+            {
+                articles = articles.Where(a => a.Title.Contains(articleTitle));
+            }
+
+            if (!String.IsNullOrEmpty(autherName))
+            {
+                articles = articles.Where(a => a.Author.Contains(autherName));
+            }
+
+            if (!String.IsNullOrEmpty(articleText))
+            {
+                articles = articles.Where(a => a.Text.Contains(articleText));
+            }
+
+            if (fromDate != null)
+            {
+                articles = articles.Where(a => (a.PublishDate.CompareTo(fromDate) >= 0));
+
+            }
+
+            if (toDate != null)
+            {
+                articles = articles.Where(a => (a.PublishDate.CompareTo(toDate) <= 0));
+            }
+
+            //return this.Json(articles.ToList());
+
+            //return View(articles.ToList());
+            return articles.ToList();
         }
     }
 }

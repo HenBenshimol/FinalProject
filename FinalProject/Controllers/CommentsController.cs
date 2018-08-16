@@ -29,7 +29,12 @@ namespace FinalProject.Controllers
             {
                 var comments = from a in _context.Comments select a;
 
-                if (!String.IsNullOrEmpty(articleTitle))
+                foreach (var comm in comments)
+                {
+                    comm.ArticleComment = _context.Articles.Find(comm.ArticleID);
+                }
+
+               if (!String.IsNullOrEmpty(articleTitle))
                 {
                     comments = comments.Where(s => s.ArticleComment.Title.Contains(articleTitle));
                 }
@@ -49,7 +54,7 @@ namespace FinalProject.Controllers
             else if (User.Identity.IsAuthenticated)
             {
                 string strCurrentUserId = User.Identity.GetUserId();
-                ApplicationUser user = _context.Users.Find("strCurrentUserId");
+                ApplicationUser user = _context.Users.Find(strCurrentUserId);
 
                 var userName = user.FirstName + " " + user.LastName;
 
@@ -102,7 +107,7 @@ namespace FinalProject.Controllers
             else if (User.Identity.IsAuthenticated)
             {
                 string strCurrentUserId = User.Identity.GetUserId();
-                ApplicationUser user = _context.Users.Find("strCurrentUserId");
+                ApplicationUser user = _context.Users.Find(strCurrentUserId);
                 //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
                 var userName = user.FirstName + " " + user.LastName;
@@ -148,12 +153,13 @@ namespace FinalProject.Controllers
                 if (ModelState.IsValid)
                 {
                     string strCurrentUserId = User.Identity.GetUserId();
-                    ApplicationUser user = _context.Users.Find("strCurrentUserId");
+                    ApplicationUser user = _context.Users.Find(strCurrentUserId);
                     //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
                     comment.CommentUser = user.FirstName + " " + user.LastName;
 
                     comment.PublishDate = System.DateTime.Now;
+                    
 
                     _context.Comments.Add(comment);
                     _context.SaveChanges();
@@ -191,7 +197,7 @@ namespace FinalProject.Controllers
             ViewBag.ArticleID = new SelectList(_context.Articles, "ID", "Title", comment.ArticleID);
 
             string strCurrentUserId = User.Identity.GetUserId();
-            ApplicationUser user = _context.Users.Find("strCurrentUserId");
+            ApplicationUser user = _context.Users.Find(strCurrentUserId);
             //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
@@ -218,7 +224,7 @@ namespace FinalProject.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("ID,ArticleID,CommentTitle,CommentUser,Text,PublishDate")] Comment comment)
         {
             string strCurrentUserId = User.Identity.GetUserId();
-            ApplicationUser user = _context.Users.Find("strCurrentUserId");
+            ApplicationUser user = _context.Users.Find(strCurrentUserId);
             //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
@@ -265,7 +271,7 @@ namespace FinalProject.Controllers
             }
 
             string strCurrentUserId = User.Identity.GetUserId();
-            ApplicationUser user = _context.Users.Find("strCurrentUserId");
+            ApplicationUser user = _context.Users.Find(strCurrentUserId);
             //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
@@ -292,7 +298,7 @@ namespace FinalProject.Controllers
         {
 
             string strCurrentUserId = User.Identity.GetUserId();
-            ApplicationUser user = _context.Users.Find("strCurrentUserId");
+            ApplicationUser user = _context.Users.Find(strCurrentUserId);
             //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
@@ -318,6 +324,19 @@ namespace FinalProject.Controllers
         {
             return _context.Comments.Any(e => e.ID == id);
         }
+
+        /*
+        public List<FinalProject.Models.Comment> GetCommentModel()
+        {
+            List<FinalProject.Models.Comment> cModel = new List<FinalProject.Models.Comment>();
+            
+
+
+            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 1, Comment = "Good One", CommentedBy = "Vijay" });
+            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 2, Comment = "Nice", CommentedBy = "Nishant" });
+            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 2, Comment = "Perfect", CommentedBy = "Saurabh" });
+            return cModel;
+        }*/
 
     }
 }

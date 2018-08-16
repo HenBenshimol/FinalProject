@@ -26,7 +26,6 @@
                 </thead>
                 @foreach (var item in Model)
                 {
-                    var hreff = "../../Article/Details/" + item.ID;
 
                     <tr>
                         <td>
@@ -39,7 +38,7 @@
                             @Html.DisplayFor(modelItem => item.PublishDate)
                         </td>
                         <td>
-                            <a href=@hreff>
+                            <a asp-action="Details" asp-route-id="@item.ID">
                                 <p>Details</p>
                             </a>
                         </td>

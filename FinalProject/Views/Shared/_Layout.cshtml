@@ -40,7 +40,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
-                        <li><a asp-area="" asp-controller="Team" asp-action="GameStatistics">Game Statistics</a></li>
+                        <li><a asp-area="" asp-controller="Team" asp-action="Tweets">Tweets</a></li>
                         <li><a asp-area="" asp-controller="Team" asp-action="Map">Map</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage<span class="caret"></span></a>
@@ -64,7 +64,7 @@
                     @if (User.IsInRole("Author"))
                     {
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
-                        <li><a asp-area="" asp-controller="Team" asp-action="GameStatistics">Game Statistics</a></li>
+                        <li><a asp-area="" asp-controller="Team" asp-action="Tweets">Tweets</a></li>
                         <li><a asp-area="" asp-controller="Team" asp-action="Map">Map</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage<span class="caret"></span></a>
@@ -80,7 +80,7 @@
                     @if (User.IsInRole("Regular"))
                     {
                         <li><a asp-area="" asp-controller="News" asp-action="Index">News</a></li>
-                        <li><a asp-area="" asp-controller="Team" asp-action="GameStatistics">Game Statistics</a></li>
+                        <li><a asp-area="" asp-controller="Team" asp-action="Tweets">Tweets</a></li>
                         <li><a asp-area="" asp-controller="Team" asp-action="Map">Map</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage<span class="caret"></span></a>
