@@ -428,7 +428,8 @@ namespace FinalProject.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Login", "Account");
+
         }
 
         [HttpPost]
@@ -516,7 +517,7 @@ namespace FinalProject.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Login", "Account");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
