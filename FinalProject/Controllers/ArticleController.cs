@@ -47,7 +47,6 @@ namespace FinalProject.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                //var articlesToShow = _context.Articles.ToList();
                 var articlesToShow = SearcArticleResult(articleTitle, autherName, articleText, StartDate, EndDate);
 
                 return View(articlesToShow.ToList());
@@ -81,7 +80,7 @@ namespace FinalProject.Controllers
                 Article article = _context.Articles.Find(id);
 
                 article.Comments = _context.Comments.Where(c => c.ArticleID == article.ID).ToList();
-                    
+
 
                 if (article == null)
                 {
@@ -123,10 +122,9 @@ namespace FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var u = _context.UserRoles.Find(User.Identity.GetUserId());
-
                 article.PublishDate = DateTime.Today;
                 article.Author = User.Identity.GetUserName();
+                article.AuthorID = User.Identity.GetUserId();
                 _context.Add(article);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -259,7 +257,7 @@ namespace FinalProject.Controllers
 
             if (User.IsInRole("Admin") || (User.IsInRole("Author") && (article.AuthorID == strCurrentUserId)))
             {
-                if(article.Comments != null)
+                if (_context.Comments.Where(c => c.ArticleID == article.ID).ToList() != null)
                 {
                     var comm = _context.Comments.Where(c => c.ArticleID.Equals(article.ID));
 
@@ -378,7 +376,7 @@ namespace FinalProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        
+
         public List<Article> SearcArticleResult(string articleTitle, string autherName, string articleText, DateTime? fromDate, DateTime? toDate)
         {
             var articles = from a in _context.Articles select a;
@@ -409,9 +407,6 @@ namespace FinalProject.Controllers
                 articles = articles.Where(a => (a.PublishDate.CompareTo(toDate) <= 0));
             }
 
-            //return this.Json(articles.ToList());
-
-            //return View(articles.ToList());
             return articles.ToList();
         }
     }

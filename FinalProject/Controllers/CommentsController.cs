@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +21,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Comment
-        //public async Task<IActionResult> Index()
         public ActionResult Index(string articleTitle, string commentTitle, string commentUserName)
         {
             if (User.IsInRole("Admin"))
@@ -34,7 +32,7 @@ namespace FinalProject.Controllers
                     comm.ArticleComment = _context.Articles.Find(comm.ArticleID);
                 }
 
-               if (!String.IsNullOrEmpty(articleTitle))
+                if (!String.IsNullOrEmpty(articleTitle))
                 {
                     comments = comments.Where(s => s.ArticleComment.Title.Contains(articleTitle));
                 }
@@ -84,7 +82,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Comment/Details/5
-        //public async Task<IActionResult> Details(int? id)
         public ActionResult Details(int? id)
         {
             //Bad Request
@@ -108,7 +105,6 @@ namespace FinalProject.Controllers
             {
                 string strCurrentUserId = User.Identity.GetUserId();
                 ApplicationUser user = _context.Users.Find(strCurrentUserId);
-                //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
                 var userName = user.FirstName + " " + user.LastName;
 
@@ -154,12 +150,11 @@ namespace FinalProject.Controllers
                 {
                     string strCurrentUserId = User.Identity.GetUserId();
                     ApplicationUser user = _context.Users.Find(strCurrentUserId);
-                    //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
                     comment.CommentUser = user.FirstName + " " + user.LastName;
 
                     comment.PublishDate = System.DateTime.Now;
-                    
+
 
                     _context.Comments.Add(comment);
                     _context.SaveChanges();
@@ -177,7 +172,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Comment/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
         public ActionResult Edit(int? id)
         {
             //Bad Request
@@ -198,7 +192,6 @@ namespace FinalProject.Controllers
 
             string strCurrentUserId = User.Identity.GetUserId();
             ApplicationUser user = _context.Users.Find(strCurrentUserId);
-            //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
 
@@ -225,7 +218,6 @@ namespace FinalProject.Controllers
         {
             string strCurrentUserId = User.Identity.GetUserId();
             ApplicationUser user = _context.Users.Find(strCurrentUserId);
-            //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
 
@@ -252,7 +244,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Comment/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
         public ActionResult Delete(int? id)
         {
             //Bad Request
@@ -272,7 +263,6 @@ namespace FinalProject.Controllers
 
             string strCurrentUserId = User.Identity.GetUserId();
             ApplicationUser user = _context.Users.Find(strCurrentUserId);
-            //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
 
@@ -293,13 +283,11 @@ namespace FinalProject.Controllers
         // POST: Comment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
         public ActionResult DeleteConfirmed(int id)
         {
 
             string strCurrentUserId = User.Identity.GetUserId();
             ApplicationUser user = _context.Users.Find(strCurrentUserId);
-            //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(strCurrentUserId);
 
             var userName = user.FirstName + " " + user.LastName;
             Comment comment = _context.Comments.Find(id);
@@ -324,19 +312,6 @@ namespace FinalProject.Controllers
         {
             return _context.Comments.Any(e => e.ID == id);
         }
-
-        /*
-        public List<FinalProject.Models.Comment> GetCommentModel()
-        {
-            List<FinalProject.Models.Comment> cModel = new List<FinalProject.Models.Comment>();
-            
-
-
-            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 1, Comment = "Good One", CommentedBy = "Vijay" });
-            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 2, Comment = "Nice", CommentedBy = "Nishant" });
-            cModel.Add(new CommentModel() { BlogID = 1, CommentID = 2, Comment = "Perfect", CommentedBy = "Saurabh" });
-            return cModel;
-        }*/
 
     }
 }

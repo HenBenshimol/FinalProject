@@ -21,7 +21,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Team
-        //public async Task<IActionResult> Index(string teamName, string teamDescription)
         public ActionResult Index(string teamName, string teamDescription)
         {
             var teams = from a in _context.Teams select a; //LINQ
@@ -51,7 +50,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Team/Details/5
-        //public async Task<IActionResult> Details(int? id)
         public ActionResult Details(int? id)
         {
             if (User.IsInRole("Admin"))
@@ -104,7 +102,6 @@ namespace FinalProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("TeamID,Name,Description,Zoom,Lattitude,Longtidute")] Team team)
         public ActionResult Create([Bind("TeamID,Name,Description,Zoom,Lattitude,Longtidute")] Team team)
         {
             if (User.IsInRole("Admin"))
@@ -129,7 +126,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Team/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
         public ActionResult Edit(int? id)
         {
             if (User.IsInRole("Admin"))
@@ -210,7 +206,6 @@ namespace FinalProject.Controllers
         }
 
         // GET: Team/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
         public ActionResult Delete(int? id)
         {
             //Not Found
@@ -244,7 +239,6 @@ namespace FinalProject.Controllers
         // POST: Team/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
         public ActionResult Delete(int id)
         {
             if (User.IsInRole("Admin"))
@@ -265,7 +259,7 @@ namespace FinalProject.Controllers
             }
         }
 
-        // GET: Beach/json
+        // GET: Team/json
         public ActionResult Json()
         {
             if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
@@ -292,8 +286,8 @@ namespace FinalProject.Controllers
 
         public ActionResult Tweets()
         {
-            if(User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
-            { 
+            if (User.IsInRole("Admin") || User.IsInRole("Author") || User.IsInRole("Regular"))
+            {
                 string consumerKey = "h2HP4QQT1KtJ2b7yzV2QYlZ8C";
                 string consumerSecret = "ZykLEiiDFtohllfVlmR0MunZODAgQpmcUUdJRjgiOGvPNAEHKf";
                 string accessToken = "1033276389720563712-rSe7s3DjAKpS8ehtz6YBoRuNgicff7";
@@ -302,12 +296,19 @@ namespace FinalProject.Controllers
                 TwitterService twitterService = new TwitterService(consumerKey, consumerSecret);
                 twitterService.AuthenticateWith(accessToken, accessTokenSecret);
 
-                var tweets_search = twitterService.Search(new SearchOptions { Q = "#FIFA", Resulttype = TwitterSearchResultType.Popular, Count = 10 });
-                List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
+                var tweets_search = twitterService.Search(new SearchOptions { Q = "#FIFA", Resulttype = TwitterSearchResultType.Popular, Count = 20 });
+                if (tweets_search != null)
+                {
+                    List<TwitterStatus> resultList = new List<TwitterStatus>(tweets_search.Statuses);
 
-                ViewBag.Tweets = resultList;
+                    ViewBag.Tweets = resultList;
 
-                return View();
+                    return View();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {

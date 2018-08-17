@@ -26,7 +26,6 @@ namespace FinalProject.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
-        private string DEFULT_RESULT = "###";
         private ApplicationDbContext _context;
 
         public AccountController(
@@ -696,106 +695,6 @@ namespace FinalProject.Controllers
             return resultOfSearch;
         }
 
-        /*
-        public List<SearchUserOutput> SearchUserResult(string email, string firstName, string lastName, string roleType, int minCount)
-        {
-           
-            if (roleType == DEFULT_RESULT)
-            {
-                roleType = string.Empty;
-            }
-
-            var users = (from user in _context.Users
-                         join article in _context.Articles on user.Id equals article.AuthorID
-                         group new { user, article } by new { user.Id } into j1
-                         select new
-                         {
-                             j1.Key.Id,
-                             user = j1.Select(x => x.user),
-                             CountOfArticles = j1.Count(t => t.article.AuthorID != null)
-                         }).Where(c => c.CountOfArticles >= minCount).ToList();
-
-            var roles = (from user in _context.Users
-                          join role in _context.UserRoles on user.Id equals role.UserId
-                          join roleN in _context.Roles on role.RoleId equals roleN.Id
-                          select new
-                          {
-                              userId = user.Id.ToString(),
-                              roleName = roleN.Name.ToString(),
-                              roleId = role.RoleId.ToString()
-                          });
-
-
-            // Gets specific roleId
-            var roleId = _context.Roles.Where(r => r.Name == roleType).Select(r => new { r.Id }).FirstOrDefault();
-
-            List<SearchUserOutput> resultOfSearch = new List<SearchUserOutput>();
-
-            if (roleId != null)
-            {
-                foreach (var userItem in users)
-                {
-                    var userroleId = roles.Where(r => r.userId == userItem.Id).Select(r => r.roleId).First().ToString();
-
-                    if (userroleId == roleId.Id)
-                     {
-                         resultOfSearch.Add(new SearchUserOutput((FinalProject.Models.ApplicationUser)userItem.user, userItem.CountOfArticles, roleType));
-                     }
-                }
-            }
-            // In case all the roles accepted
-            else
-            {
-                foreach (var userItem in users)
-                {
-                    string roleName = roles.Where(r => r.userId == userItem.Id).Select(r => r.roleName).First().ToString();
-
-                    ApplicationUser u = _context.Users.Find(userItem.Id);
-
-                    resultOfSearch.Add(new SearchUserOutput(u, userItem.CountOfArticles, roleName));
-                }
-            }
-
-            if (!String.IsNullOrEmpty(email))
-            {
-                resultOfSearch.Where(u => u.User.Email.Contains(email));
-            }
-
-            if (!String.IsNullOrEmpty(firstName))
-            {
-                resultOfSearch.Where(u => u.User.FirstName.Contains(firstName));
-            }
-
-            if (!String.IsNullOrEmpty(lastName))
-            {
-                resultOfSearch.Where(u => u.User.LastName.Contains(lastName));
-            }
-
-
-            return resultOfSearch;
-        }
-
-
-        public ActionResult SearchUsers(string email, string firstName, string lastName, string roleType, int minCount)
-        {
-            if (User.IsInRole("Admin"))
-            {
-                var resultToShow = SearchUserResult(email, firstName, lastName, roleType, minCount);
-
-                return Json(resultToShow.ToList());
-                //return View(resultToShow);
-            }
-            else if (User.IsInRole("Regular") || User.IsInRole("Author"))
-            {
-                return RedirectToAction("PrivilegeError", "News");
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-        }
-        */
         #region Helpers
 
         private void AddErrors(IdentityResult result)
